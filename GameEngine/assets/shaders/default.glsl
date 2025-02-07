@@ -22,5 +22,5 @@ out vec4 Col;
 
 void main()
 {
-    col = fCol;
+    Col = fCol;
 }
