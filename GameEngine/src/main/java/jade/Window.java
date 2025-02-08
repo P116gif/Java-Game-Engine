@@ -16,6 +16,9 @@ import org.lwjgl.glfw.GLFWErrorCallbackI;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
+import static org.lwjgl.glfw.GLFW.GLFW_TRUE;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
+
 public class Window {
 
     private final int width = 1920;
@@ -102,8 +105,12 @@ public class Window {
         float beginTime = Time.getTime();
         float endTime;
         float dt = -1.0f;
+
+        //this is the looping
+        //checks if the user hit the close button or alt+f4 or similar closing keys
         while(!GLFW.glfwWindowShouldClose(this.glfwWindow)) {
 
+            //processes events in the event queue and returns immediately
             GLFW.glfwPollEvents();
 
             GL11.glClearColor(r, g, b, a);

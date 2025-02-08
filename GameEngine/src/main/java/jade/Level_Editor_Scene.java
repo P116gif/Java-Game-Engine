@@ -1,5 +1,6 @@
 package jade;
 
+import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import renderer.Shader;
 
@@ -38,13 +39,14 @@ public class Level_Editor_Scene extends Scene {
 
     private float[] vertexArray = {
             //positions                 //color
-            0.5f, -0.5f, 0.0f,          1.0f,0.0f,0.0f,1.0f, //bottom right == 0
-            0.5f, 0.5f, 0.0f,           1.0f,1.0f,0.0f,1.0f, //top right  == 1
-            -0.5f, -0.5f, 0.0f,         0.0f,1.0f,0.0f,1.0f, //bottom left == 2
-            -0.5f, 0.5f, 0.0f,          0.0f,1.0f,1.0f,1.0f //top left == 3
+            200.5f, 0.5f, 0.0f,           1.0f,0.0f,0.0f,1.0f, //bottom right == 0
+            200.5f, 100.5f, 0.0f,           1.0f,1.0f,0.0f,1.0f, //top right  == 1
+            100.5f, 0.5f, 0.0f,         0.0f,1.0f,0.0f,1.0f, //bottom left == 2
+            100.5f, 100.5f, 0.0f,             0.0f,1.0f,1.0f,1.0f //top left == 3
     };
 
     //MUST BE IN COUNTERCLOCKWISE ORDER
+    //an element buffer holds the order in which openGL will connect the vertices
     private int[] elementArray = {
 
             /*
@@ -62,25 +64,33 @@ public class Level_Editor_Scene extends Scene {
     //vertex array object, vertex buffer object, element buffer object
     private int vaoID, vboID, eboID;
 
-    private Shader defaultShader = new Shader("assets/shaders/default.glsl");
+    private Shader defaultShader;
 
     public Level_Editor_Scene(){}
 
     @Override
     public void init(){
 
+        this.camera = new Camera(new Vector2f());
+        defaultShader = new Shader("assets/shaders/default.glsl");
         defaultShader.compileAndLink();
 
+        //generate the vertex array object
+        //this will contain the information about how to travel the vertex buffer
         vaoID = glGenVertexArrays();
         glBindVertexArray(vaoID);
 
-        //create a float buffer  of vertices
+        //create a float buffer of vertices
         FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertexArray.length);
         vertexBuffer.put(vertexArray).flip();
 
-        //create the vbo and upload vertex buffer
+        //create and upload vertex buffer object
+        //this is the object that holds all the data about the vertex
         vboID = glGenBuffers();
+        //giving array buffer the number vboID
         glBindBuffer(GL_ARRAY_BUFFER,vboID);
+
+        //copies x,y,z values from the vertex buffer to GPU memory
         glBufferData(GL_ARRAY_BUFFER,vertexBuffer,GL_STATIC_DRAW);
 
         //create the indices and upload
@@ -98,7 +108,7 @@ public class Level_Editor_Scene extends Scene {
         int floatSizeBytes = 4;
         int vertexSizeBytes = (positionSize + colorSize) * floatSizeBytes;
 
-        //assigning for position
+        //assigning for position                                                stride
         glVertexAttribPointer(0, positionSize, GL_FLOAT, false, vertexSizeBytes, 0);
         glEnableVertexAttribArray(0);
 
@@ -106,6 +116,9 @@ public class Level_Editor_Scene extends Scene {
         //basically tells gpu that colors start at index 1 (in glsl file), they are float type, to go to next color you need to travel vertexsizebytes long and that the start of the first color is at positionsize*floatsize
         glVertexAttribPointer(1, colorSize, GL_FLOAT, false, vertexSizeBytes, positionSize*floatSizeBytes);
         glEnableVertexAttribArray(1);
+
+        //we don't need the buffer object anymore
+        glBindBuffer(GL_ARRAY_BUFFER,0);
 
     }
 
@@ -115,7 +128,11 @@ public class Level_Editor_Scene extends Scene {
     @Override
     public void update(float deltaTime) {
 
+        camera.position.x -= deltaTime * 50.f;
+
         defaultShader.use();
+        defaultShader.uploadMat4f("ProjectionMatrix", camera.getProjectionMatrix());
+        defaultShader.uploadMat4f("viewMatrix", camera.getViewMatrix());
 
         //bind VAO that we're using
         glBindVertexArray(vaoID);
@@ -124,6 +141,7 @@ public class Level_Editor_Scene extends Scene {
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
 
+        //checks what is bound to the vertex array and then draws using info from that
         glDrawElements(GL_TRIANGLES, elementArray.length, GL_UNSIGNED_INT, 0);
 
         //unbind after drawing
