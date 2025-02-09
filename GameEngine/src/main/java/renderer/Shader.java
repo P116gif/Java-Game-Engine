@@ -1,6 +1,7 @@
 package renderer;
 
 import org.joml.Matrix4f;
+import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
 public class Shader {
 
     private int shaderProgramId;
+    private boolean beingUsed = false;
 
     private String vertexSource, fragmentSource, filePath;
 
@@ -129,19 +131,45 @@ public class Shader {
 
     public void use(){
         //bind shader program
-        glUseProgram(shaderProgramId);
+        if(!beingUsed)
+        {
+            glUseProgram(shaderProgramId);
+            beingUsed = true;
+        }
     }
 
     public void detach(){
         glUseProgram(0);
+        beingUsed = false;
     }
 
     public void uploadMat4f(String varname, Matrix4f mat4){
 
         int varLocation = glGetUniformLocation(shaderProgramId,varname);
+        use();
         FloatBuffer matBuffer = BufferUtils.createFloatBuffer(16); //4x4 matrix
         mat4.get(matBuffer);
         glUniformMatrix4fv(varLocation, false, matBuffer);
 
     }
+
+    public void uploadVec4f(String varname, Vector4f vec4f){
+        int varLocation = glGetUniformLocation(shaderProgramId,varname);
+        use();
+        glUniform4f(varLocation, vec4f.x, vec4f.y,vec4f.z,vec4f.w);
+    }
+
+    public void uploadFloat(String varname, float val){
+        int varLocation = glGetUniformLocation(shaderProgramId,varname);
+        use();
+        glUniform1f(varLocation, val);
+    }
+
+    public void uploadInt(String varname, int val){
+        int varLocation = glGetUniformLocation(shaderProgramId,varname);
+        use();
+        glUniform1i(varLocation, val);
+    }
+
+
 }

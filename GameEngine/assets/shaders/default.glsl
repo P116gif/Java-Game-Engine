@@ -19,10 +19,11 @@ void main()
 #version 330 //not mine though the tutorial's
 
 in vec4 fCol;
-
+uniform float time;
 out vec4 Col;
 
 void main()
 {
-    Col = fCol;
+    float noise = fract(sin(dot(fCol.xy, vec2(12.9898,78.233))) * 43758.5453);
+    Col = fCol * noise;
 }
