@@ -4,6 +4,7 @@ import Util.Time;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import renderer.Shader;
+import renderer.texture;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -39,11 +40,11 @@ public class Level_Editor_Scene extends Scene {
     private int vertexID, fragmentID, shaderProgram; //identifiers so that gpu knows what cpu is sending it
 
     private float[] vertexArray = {
-            //positions                 //color
-            200.5f, 0.5f, 0.0f,           1.0f,0.0f,0.0f,1.0f, //bottom right == 0
-            200.5f, 100.5f, 0.0f,           1.0f,1.0f,0.0f,1.0f, //top right  == 1
-            100.5f, 0.5f, 0.0f,         0.0f,1.0f,0.0f,1.0f, //bottom left == 2
-            100.5f, 100.5f, 0.0f,             0.0f,1.0f,1.0f,1.0f //top left == 3
+            //positions                 //color                     //texture XY coordinates
+            200.5f, 0.5f, 0.0f,           1.0f,0.0f,0.0f,1.0f,      1,0,    //bottom right == 0
+            200.5f, 100.5f, 0.0f,         1.0f,1.0f,0.0f,1.0f,      1,1,    //top right  == 1
+            100.5f, 0.5f, 0.0f,           0.0f,1.0f,0.0f,1.0f,      0,0,    //bottom left == 2
+            100.5f, 100.5f, 0.0f,          0.0f,1.0f,1.0f,1.0f,      0,1     //top left == 3
     };
 
     //MUST BE IN COUNTERCLOCKWISE ORDER
@@ -66,6 +67,7 @@ public class Level_Editor_Scene extends Scene {
     private int vaoID, vboID, eboID;
 
     private Shader defaultShader;
+    private texture testTex;
 
     public Level_Editor_Scene(){}
 
@@ -75,6 +77,8 @@ public class Level_Editor_Scene extends Scene {
         this.camera = new Camera(new Vector2f());
         defaultShader = new Shader("assets/shaders/default.glsl");
         defaultShader.compileAndLink();
+        this.testTex = new texture("C:\\Users\\parij\\Pictures\\Genshin\\1cf9739e7a28662b3d73f515350b4c7d.jpg");
+
 
         //generate the vertex array object
         //this will contain the information about how to travel the vertex buffer
@@ -106,8 +110,8 @@ public class Level_Editor_Scene extends Scene {
         //add the vertex attribute pointers, ie, which attribute comes first, which next etx
         int positionSize = 3;
         int colorSize = 4;
-        int floatSizeBytes = 4;
-        int vertexSizeBytes = (positionSize + colorSize) * floatSizeBytes;
+        int uvSize = 2;
+        int vertexSizeBytes = (positionSize + colorSize + uvSize) * Float.BYTES;
 
         //assigning for position                                                stride
         glVertexAttribPointer(0, positionSize, GL_FLOAT, false, vertexSizeBytes, 0);
@@ -115,8 +119,12 @@ public class Level_Editor_Scene extends Scene {
 
         //assigning for color
         //basically tells gpu that colors start at index 1 (in glsl file), they are float type, to go to next color you need to travel vertexsizebytes long and that the start of the first color is at positionsize*floatsize
-        glVertexAttribPointer(1, colorSize, GL_FLOAT, false, vertexSizeBytes, positionSize*floatSizeBytes);
+        glVertexAttribPointer(1, colorSize, GL_FLOAT, false, vertexSizeBytes, positionSize*Float.BYTES);
         glEnableVertexAttribArray(1);
+
+        //assigning UV/XY coordinated for texture
+        glVertexAttribPointer(2, uvSize, GL_FLOAT, false, vertexSizeBytes, (positionSize + colorSize) * Float.BYTES);
+        glEnableVertexAttribArray(2);
 
         //we don't need the buffer object anymore
         glBindBuffer(GL_ARRAY_BUFFER,0);
@@ -132,24 +140,33 @@ public class Level_Editor_Scene extends Scene {
         camera.position.x -= deltaTime * 50.f;
 
         defaultShader.use();
+
+        //upload texture to shader
+        //slot 0 means we want to upload the textureId at slot 0
+        defaultShader.uploadTexture("texSampler", 0);
+        glActiveTexture(GL_TEXTURE0);
+        testTex.bind();
+
         defaultShader.uploadMat4f("ProjectionMatrix", camera.getProjectionMatrix());
         defaultShader.uploadMat4f("viewMatrix", camera.getViewMatrix());
         defaultShader.uploadFloat("time", Time.getTime());
+
+
 
         //bind VAO that we're using
         glBindVertexArray(vaoID);
 
         //enable vertex attribute pointers
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
+        //glEnableVertexAttribArray(0);
+        //glEnableVertexAttribArray(1);
 
         //checks what is bound to the vertex array and then draws using info from that
         glDrawElements(GL_TRIANGLES, elementArray.length, GL_UNSIGNED_INT, 0);
 
         //unbind after drawing
-        glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
-        glBindVertexArray(0);
+        //glDisableVertexAttribArray(0);
+        ///glDisableVertexAttribArray(1);
+        //glBindVertexArray(0);
 
         defaultShader.detach();
 
