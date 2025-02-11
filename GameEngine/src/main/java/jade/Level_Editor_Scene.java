@@ -1,5 +1,6 @@
 package jade;
 
+import Components.SpriteRenderer;
 import Util.Time;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
@@ -69,12 +70,20 @@ public class Level_Editor_Scene extends Scene {
     private Shader defaultShader;
     private texture testTex;
 
+    GameObject testObj;
+
     public Level_Editor_Scene(){}
 
     @Override
     public void init(){
 
         this.camera = new Camera(new Vector2f());
+
+        System.out.println("Creating a test game object");
+        this.testObj = new GameObject("test object");
+        this.testObj.addComponent(new SpriteRenderer());
+        this.addGameObjectToScene(this.testObj);
+
         defaultShader = new Shader("assets/shaders/default.glsl");
         defaultShader.compileAndLink();
         this.testTex = new texture("C:\\Users\\parij\\Pictures\\Genshin\\1cf9739e7a28662b3d73f515350b4c7d.jpg");
@@ -132,7 +141,7 @@ public class Level_Editor_Scene extends Scene {
     }
 
 
-
+    int count = 0;
 
     @Override
     public void update(float deltaTime) {
@@ -170,6 +179,18 @@ public class Level_Editor_Scene extends Scene {
 
         defaultShader.detach();
 
+
+        if(count < 1){
+            System.out.println("Creating the game object.");
+            GameObject go = new GameObject("Game test 2");
+            go.addComponent(new SpriteRenderer());
+            this.addGameObjectToScene(go);
+            count++;
+        }
+
+        for(GameObject go: this.gameObjects){
+            go.update(deltaTime);
+        }
     }
 
 

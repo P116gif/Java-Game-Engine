@@ -10,10 +10,16 @@ import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.stb.STBImage.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class texture {
 
+    //simply for debugging
     private String filepath;
     private int textureId;
+
+    private static Logger logger = LoggerFactory.getLogger(texture.class);
 
     public texture(String filepath){
 
@@ -46,21 +52,21 @@ public class texture {
         if(image!=null){
             //uploads image to gpu with exact formatting
             if(channels.get(0)==3) {
-                System.out.print("RBG");
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width.get(0), height.get(0),
                         0, GL_RGB, GL_UNSIGNED_BYTE, image);
             }
             else if(channels.get(0) == 4){
-                System.out.print("RGBA");
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width.get(0), height.get(0),
                         0, GL_RGBA, GL_UNSIGNED_BYTE, image);
             }
             else{
-                assert false:"Error: Unknown number of channels in texture uploaded" + channels.get(0);
+                logger.error("Number of channels in texture uploaded unknown: {}", channels.get(0));
+                assert false:"";
             }
         }
         else{
-            assert false: "Error: Texture file could not load image: " + filepath;
+            logger.error("Texture file could not load image from file: {}", filepath);
+            assert false: "";
         }
 
 

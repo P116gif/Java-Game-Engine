@@ -13,12 +13,18 @@ import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 public class Shader {
 
     private int shaderProgramId;
     private boolean beingUsed = false;
 
     private String vertexSource, fragmentSource, filePath;
+    private static final Logger logger = LoggerFactory.getLogger(Shader.class);
+
 
     public Shader(String filepath) {
 
@@ -63,7 +69,7 @@ public class Shader {
 
         }catch(IOException e){
 
-            e.printStackTrace();
+            logger.error("Error: Could not open file for shader", e);
             assert false: "Error could not open file for shader. '" + filepath + "'";
         }
     }
@@ -76,9 +82,16 @@ public class Shader {
         //first load and compile vertex
         vertexID = glCreateShader(GL_VERTEX_SHADER);
 
+        if(vertexID == 0)
+        {
+            logger.error("Failed to create vertex shader: {} (glCreateShader returned 0)", vertexID);
+            assert false: "Trial worked";
+        }
+
         //pass the shader source code to gl
         glShaderSource(vertexID, vertexSource);
         glCompileShader(vertexID);
+
 
         //check and see if there were errors in compilation
         int success = glGetShaderi(vertexID, GL_COMPILE_STATUS);
@@ -86,9 +99,10 @@ public class Shader {
         if(success == GL_FALSE)
         {
             int len = glGetShaderi(vertexID, GL_INFO_LOG_LENGTH);
-            System.out.println("Error: 'defaultShader.glsl'\n\tVertex Shader Compilation Failed");
-            System.out.println(glGetShaderInfoLog(vertexID, len));
-            assert false:"";
+            logger.error("Vertex Shader Compilation Failed for '{}'", filePath);
+            logger.error("Shader Compilation Log:\n{}", glGetShaderInfoLog(vertexID, len));
+            assert false : "Vertex Shader Compilation Failed";
+
         }
 
         //first load and compile fragment shader
