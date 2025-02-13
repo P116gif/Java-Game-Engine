@@ -118,8 +118,8 @@ public class Shader {
         if(success == GL_FALSE)
         {
             int len = glGetShaderi(fragmentID, GL_INFO_LOG_LENGTH);
-            System.out.println("Error: '"+ filePath + "'\n\tFragment Shader Compilation Failed");
-            System.out.println(glGetShaderInfoLog(fragmentID, len));
+            logger.error("Error: '{}' \n\tFragment Shader Compilation Failed", filePath);
+            logger.error(glGetShaderInfoLog(fragmentID, len));
             assert false:"";
         }
 
@@ -136,8 +136,8 @@ public class Shader {
         if(success == GL_FALSE)
         {
             int len = glGetProgrami(shaderProgramId, GL_INFO_LOG_LENGTH);
-            System.out.println("Error: '" + filePath + "' \n\tShader Program Compilation Failed");
-            System.out.println(glGetProgramInfoLog(shaderProgramId, len));
+            logger.error("Error: '{}' \n\tShader Program Compilation Failed", filePath);
+            logger.error(glGetProgramInfoLog(shaderProgramId, len));
             assert false:"";
         }
 

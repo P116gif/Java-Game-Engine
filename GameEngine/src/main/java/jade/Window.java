@@ -16,9 +16,6 @@ import org.lwjgl.glfw.GLFWErrorCallbackI;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
-import static org.lwjgl.glfw.GLFW.GLFW_TRUE;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
-
 public class Window {
 
     private final int width = 1920;
@@ -63,6 +60,10 @@ public class Window {
         }
 
         return Window.window;
+    }
+
+    public static Scene getScene(){
+        return get().currentScene;
     }
 
     public void run() {

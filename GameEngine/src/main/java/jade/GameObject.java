@@ -11,11 +11,23 @@ public class GameObject {
     private static final Logger logger = LoggerFactory.getLogger(GameObject.class);
     private String name;
     private List<Component> componentList;
+    public Transform transform;
+
+    /*Constructors*/
 
     public GameObject(String name){
         this.name = name;
         this.componentList = new ArrayList<>();
+        this.transform = new Transform();
     }
+
+    public GameObject(String name, Transform trans){
+        this.name = name;
+        this.componentList = new ArrayList<>();
+        this.transform = trans;
+    }
+
+
 
     public <T extends Component> T getComponent(Class<T> componentClass){
 

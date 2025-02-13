@@ -1,3 +1,18 @@
-2025-02-11 15:42:13 [main] INFO  Main - This is an INFO log.
-2025-02-11 15:42:13 [main] ERROR Main - This is an ERROR log.
-2025-02-11 16:16:05 [main] ERROR renderer.Shader - This is a test error log from Log4j. If you see this, logging works.
+2025-02-13 11:43:11 [main] ERROR renderer.Shader - Error: Could not open file for shader
+java.nio.file.NoSuchFileException: default.glsl
+	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:85)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+	at java.base/sun.nio.fs.WindowsFileSystemProvider.newByteChannel(WindowsFileSystemProvider.java:235)
+	at java.base/java.nio.file.Files.newByteChannel(Files.java:371)
+	at java.base/java.nio.file.Files.newByteChannel(Files.java:422)
+	at java.base/java.nio.file.Files.readAllBytes(Files.java:3206)
+	at renderer.Shader.<init>(Shader.java:39)
+	at renderer.renderBatch.<init>(renderBatch.java:48)
+	at renderer.Renderer.add(Renderer.java:39)
+	at renderer.Renderer.add(Renderer.java:23)
+	at jade.Scene.start(Scene.java:24)
+	at jade.Window.changeScene(Window.java:44)
+	at jade.Window.init(Window.java:101)
+	at jade.Window.run(Window.java:71)
+	at Main.main(Main.java:19)
