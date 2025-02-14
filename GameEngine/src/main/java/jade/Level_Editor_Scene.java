@@ -1,17 +1,17 @@
 package jade;
 
 import Components.SpriteRenderer;
+import Util.AssetPool;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 import renderer.Shader;
-import renderer.texture;
-
+import renderer.Texture;
 
 
 public class Level_Editor_Scene extends Scene {
 
     private Shader defaultShader;
-    private texture testTex;
+    private Texture testTex;
 
     GameObject testObj;
 
@@ -22,26 +22,29 @@ public class Level_Editor_Scene extends Scene {
 
         this.camera = new Camera(new Vector2f());
 
-        int xOffset = 10;
-        int yOffset = 10;
+        GameObject go = new GameObject("Object 1", new Transform(new Vector2f(800,800),new Vector2f(300,256)));
+        go.addComponent(new SpriteRenderer(AssetPool.getTexture("C:\\Users\\parij\\Pictures\\Genshin\\1311796.png")));
+        this.addGameObjectToScene(go);
 
-        float totalWidth = (600.0f- xOffset * 2.0f);
-        float totalHeight = (300f - yOffset * 2f);
-        float sizeX = totalWidth/100f;
-        float sizeY = totalHeight/100f;
+        GameObject go2 = new GameObject("Object 2", new Transform(new Vector2f(200,200),new Vector2f(256,300)));
+        go2.addComponent(new SpriteRenderer(AssetPool.getTexture("C:\\Users\\parij\\Pictures\\Genshin\\80608eb29afc989d4d692eacabab613b.jpg")));
+        System.out.println(go2 + " Texture: " + AssetPool.getTexture("C:\\Users\\parij\\Pictures\\Genshin\\80608eb29afc989d4d692eacabab613b.jpg"));
+        this.addGameObjectToScene(go2);
 
-        for(int x = 0; x < 100; x++){
-            for(int y = 0; y < 100; y++){
-                float xPos = xOffset  + (x*sizeX);
-                float yPos = yOffset + (y*sizeY);
-                                                                                        //position                  //scale
-                GameObject go = new GameObject("Obj " + x + " " + y, new Transform(new Vector2f(xPos, yPos), new Vector2f(sizeX, sizeY)));
-                go.addComponent(new SpriteRenderer(new Vector4f(xPos/totalWidth, yPos/totalHeight, 1, 1)));
-                this.addGameObjectToScene(go);
-            }
-        }
+        GameObject go3 = new GameObject("Object 3", new Transform(new Vector2f(500,300),new Vector2f(300,256)));
+        go3.addComponent(new SpriteRenderer(AssetPool.getTexture("C:\\Users\\parij\\Pictures\\Genshin\\Yae Miko Genshin Impact.jpg")));
+        System.out.println(go2 + " Texture: " + AssetPool.getTexture("C:\\Users\\parij\\Pictures\\Genshin\\Yae Miko Genshin Impact.jpg"));
+        this.addGameObjectToScene(go3);
 
 
+
+
+        loadResources();
+
+    }
+
+    private void loadResources() {
+        AssetPool.getShader("assets/shaders/default.glsl");
     }
 
 
@@ -50,7 +53,6 @@ public class Level_Editor_Scene extends Scene {
     @Override
     public void update(float deltaTime) {
 
-        System.out.println("FPS: " + 1/deltaTime);
         for(GameObject go: this.gameObjects){
             go.update(deltaTime);
         }

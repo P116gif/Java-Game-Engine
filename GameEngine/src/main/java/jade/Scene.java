@@ -28,6 +28,7 @@ public abstract class Scene {
     }
 
     public void addGameObjectToScene(GameObject go){
+        System.out.println("Added game object: " + go);
         if(!isRunning){
             gameObjects.add(go);
         }

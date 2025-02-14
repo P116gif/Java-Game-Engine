@@ -35,7 +35,7 @@ Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
 j  org.lwjgl.opengl.GL11C.nglTexImage2D(IIIIIIIIJ)V+0
 j  org.lwjgl.opengl.GL11C.glTexImage2D(IIIIIIIILjava/nio/ByteBuffer;)V+17
 j  org.lwjgl.opengl.GL11.glTexImage2D(IIIIIIIILjava/nio/ByteBuffer;)V+14
-j  renderer.texture.<init>(Ljava/lang/String;)V+141
+j  renderer.Texture.<init>(Ljava/lang/String;)V+141
 j  jade.Level_Editor_Scene.init()V+45
 j  jade.Window.changeScene(I)V+41
 j  jade.Window.init()V+173
