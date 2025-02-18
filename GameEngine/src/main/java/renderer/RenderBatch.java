@@ -104,28 +104,6 @@ public class RenderBatch {
 
     }
 
-    public void addSprites(SpriteRenderer spr){
-
-        //get index and add rendered object
-        int index = this.numSprites;
-        this.sprites[index] = spr;
-        this.numSprites++;
-        Texture tex = spr.getTexture();
-
-        if(tex!=null){
-            if(!textures.contains(tex)){
-                System.out.println("Added: " + tex);
-                textures.add(tex);
-            }
-
-        }
-        //add properties to the local vertices array
-        loadVertexProperties(index);
-
-        if(numSprites>=this.maxBatchSize){
-            this.hasSpace = false;
-        }
-    }
 
     public void render(){
         //for now, we shall rebuffer all the data
@@ -141,6 +119,7 @@ public class RenderBatch {
 
         //bind textures
         for(int i = 0; i < textures.size(); i++){
+            System.out.println("Activated slot: " + i);
             glActiveTexture(GL_TEXTURE0+i);
             textures.get(i).bind();
         }
@@ -164,6 +143,29 @@ public class RenderBatch {
 
         shader.detach();
     }
+    public void addSprites(SpriteRenderer spr){
+
+        //get index and add rendered object
+        int index = this.numSprites;
+        this.sprites[index] = spr;
+        this.numSprites++;
+
+        Texture tex = spr.getTexture();
+
+        if(tex!=null){
+            if(!textures.contains(tex)){
+                System.out.println("Added: " + tex);
+                textures.add(tex);
+            }
+
+        }
+        //add properties to the local vertices array
+        loadVertexProperties(index);
+
+        if(numSprites>=this.maxBatchSize){
+            this.hasSpace = false;
+        }
+    }
 
     private void loadVertexProperties(int index){
 
@@ -182,6 +184,7 @@ public class RenderBatch {
             System.out.println("The texture added is: " + spr.getTexture());
             for(int i = 0; i < textures.size(); i++){
                 if(textures.get(i)==spr.getTexture()){
+                    System.out.println("Got texture " + textures.get(i));
                     texID = i;
                     break;
                 }
@@ -265,5 +268,13 @@ public class RenderBatch {
 
     public boolean hasSpace() {
         return this.hasSpace;
+    }
+
+    public boolean hasTextureRoom(){
+        return this.textures.size() < 8;
+    }
+
+    public boolean hasTexture(Texture t){
+        return this.textures.contains(t);
     }
 }

@@ -19,3 +19,13 @@ java.nio.file.NoSuchFileException: default.glsl
 2025-02-15 00:04:43 [main] ERROR renderer.Texture - Texture file could not load image from file: empty
 2025-02-15 00:15:02 [main] ERROR renderer.Texture - Texture file could not load image from file: something
 2025-02-15 00:53:37 [main] ERROR renderer.Texture - Texture file could not load image from file: "C:\Users\parij\Pictures\Genshin\Yae Miko Genshin Impact.jpg"
+2025-02-17 20:22:40 [main] ERROR renderer.Shader - Error: 'assets/shaders/default.glsl' 
+	Fragment Shader Compilation Failed
+2025-02-17 20:22:40 [main] ERROR renderer.Shader - ERROR: 0:16: 'uTextures' : undeclared identifier 
+ERROR: 0:16: 'uTextures' : left of '[' is not of type array, matrix, or vector 
+ERROR: 0:17: 'texture' : no matching overloaded function found (using implicit conversion) 
+ERROR: 0:17: 'texture' : function is not known 
+
+
+2025-02-18 11:13:05 [main] ERROR Util.AssetPool - Tried to access sprite sheet but found that it was not added to AssetPool 
+2025-02-18 11:14:20 [main] ERROR Util.AssetPool - Tried to access sprite sheet but found that it was not added to AssetPool 

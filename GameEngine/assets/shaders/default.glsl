@@ -29,14 +29,14 @@ in vec2 fTexCords;
 in float fTexID;
 out vec4 Col;
 
-uniform sampler2D uTextures[8];
+uniform sampler2D texMatrix[8];
 
 void main()
 {
     float noise = fract(sin(dot(fCol.xy, vec2(12.9898,78.233))) * 43758.5453);
 
-    if(fTexID>0){
-        Col = fCol * texture(uTextures[int(fTexID)], fTexCords);
+    if(fTexID>=0){
+        Col = fCol * texture(texMatrix[int(fTexID)], fTexCords);
     }
     else{
         Col = fCol;

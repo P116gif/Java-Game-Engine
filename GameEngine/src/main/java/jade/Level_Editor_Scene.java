@@ -1,6 +1,8 @@
 package jade;
 
+import Components.Sprite;
 import Components.SpriteRenderer;
+import Components.SpriteSheet;
 import Util.AssetPool;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
@@ -20,31 +22,28 @@ public class Level_Editor_Scene extends Scene {
     @Override
     public void init(){
 
+        loadResources();
+
         this.camera = new Camera(new Vector2f());
 
-        GameObject go = new GameObject("Object 1", new Transform(new Vector2f(800,800),new Vector2f(300,256)));
-        go.addComponent(new SpriteRenderer(AssetPool.getTexture("C:\\Users\\parij\\Pictures\\Genshin\\1311796.png")));
+        SpriteSheet sprites = AssetPool.getSpriteSheet("assets/images/spritesheet.png");
+
+        GameObject go = new GameObject("Object 1", new Transform(new Vector2f(500,200),new Vector2f(500,256)));
+        go.addComponent(new SpriteRenderer(sprites.getSprite(0)));
         this.addGameObjectToScene(go);
 
         GameObject go2 = new GameObject("Object 2", new Transform(new Vector2f(200,200),new Vector2f(256,300)));
-        go2.addComponent(new SpriteRenderer(AssetPool.getTexture("C:\\Users\\parij\\Pictures\\Genshin\\80608eb29afc989d4d692eacabab613b.jpg")));
+        go2.addComponent(new SpriteRenderer(sprites.getSprite(11)));
         System.out.println(go2 + " Texture: " + AssetPool.getTexture("C:\\Users\\parij\\Pictures\\Genshin\\80608eb29afc989d4d692eacabab613b.jpg"));
         this.addGameObjectToScene(go2);
-
-        GameObject go3 = new GameObject("Object 3", new Transform(new Vector2f(500,300),new Vector2f(300,256)));
-        go3.addComponent(new SpriteRenderer(AssetPool.getTexture("C:\\Users\\parij\\Pictures\\Genshin\\Yae Miko Genshin Impact.jpg")));
-        System.out.println(go2 + " Texture: " + AssetPool.getTexture("C:\\Users\\parij\\Pictures\\Genshin\\Yae Miko Genshin Impact.jpg"));
-        this.addGameObjectToScene(go3);
-
-
-
-
-        loadResources();
 
     }
 
     private void loadResources() {
         AssetPool.getShader("assets/shaders/default.glsl");
+        AssetPool.addSpriteSheet("assets/images/spritesheet.png",
+                new SpriteSheet(AssetPool.getTexture("assets/images/spritesheet.png"),
+                                16, 16, 26, 0));
     }
 
 

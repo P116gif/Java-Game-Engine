@@ -18,6 +18,7 @@ public class Texture {
     //simply for debugging
     private String filepath;
     private int textureId;
+    private int width, height;
 
     private static Logger logger = LoggerFactory.getLogger(Texture.class);
 
@@ -50,6 +51,8 @@ public class Texture {
         ByteBuffer image = stbi_load(filepath, width, height, channels, 0);
 
         if(image!=null){
+            this.width = width.get(0);
+            this.height = height.get(0);
             //uploads image to gpu with exact formatting
             if(channels.get(0)==3) {
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width.get(0), height.get(0),
@@ -81,5 +84,13 @@ public class Texture {
     public void unbind(){
 
         glBindTexture(GL_TEXTURE_2D,0);
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 }
