@@ -16,6 +16,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.glfw.GLFW.glfwGetTime;
+import static org.lwjgl.opengl.GL11.*;
 
 public class Window {
 
@@ -99,6 +100,10 @@ public class Window {
                 GLFW.glfwShowWindow(this.glfwWindow);
                 GL.createCapabilities();
 
+                glEnable(GL_BLEND);
+                // new color = sourceColor(source alpha) * destinationColor(1-sourceAlpha)
+                glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
                 Window.changeScene(0);
             }
         }
@@ -120,6 +125,7 @@ public class Window {
             GL11.glClearColor(r, g, b, a);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
+            //while window has not closed, keep calling update function
             if(dt >= 0) currentScene.update(dt);
 
             GLFW.glfwSwapBuffers(this.glfwWindow);

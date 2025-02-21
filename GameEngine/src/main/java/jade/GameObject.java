@@ -12,17 +12,20 @@ public class GameObject {
     private String name;
     private List<Component> componentList;
     public Transform transform;
+    private int zIndex;
 
     /*Constructors*/
 
     public GameObject(String name){
         this.name = name;
+        this.zIndex = 0;
         this.componentList = new ArrayList<>();
         this.transform = new Transform();
     }
 
-    public GameObject(String name, Transform trans){
+    public GameObject(String name, Transform trans, int z){
         this.name = name;
+        this.zIndex = z;
         this.componentList = new ArrayList<>();
         this.transform = trans;
     }
@@ -80,4 +83,7 @@ public class GameObject {
         }
     }
 
+    public int getzIndex() {
+        return zIndex;
+    }
 }

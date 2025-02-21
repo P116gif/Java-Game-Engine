@@ -3,10 +3,12 @@ package renderer;
 import Components.SpriteRenderer;
 import Util.AssetPool;
 import jade.Window;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL15.*;
@@ -14,7 +16,10 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public class RenderBatch {
+public class RenderBatch implements Comparable<RenderBatch> {
+
+
+    private int zIndex;
 
     private List<Texture> textures;
     private int[] texSlots = {0,1,2,3,4,5,6,7};
@@ -51,11 +56,11 @@ public class RenderBatch {
     private Shader shader;
 
 
-    public RenderBatch(int size){
+    public RenderBatch(int size, int z){
 
         //to know how many you want to render at once
         this.maxBatchSize = size;
-
+        this.zIndex = z;
         shader = AssetPool.getShader("assets/shaders/default.glsl");
 
         this.sprites = new SpriteRenderer[maxBatchSize];
@@ -106,11 +111,27 @@ public class RenderBatch {
 
 
     public void render(){
-        //for now, we shall rebuffer all the data
-        //god save my laptop
 
-        glBindBuffer(GL_ARRAY_BUFFER,vboID);
-        glBufferSubData(GL_ARRAY_BUFFER,0, vertices);
+        // for every site in the sprite array,
+        //if the sprite is dirty, then reload the vertex properties
+        //and rebuffer the data to be drawn on the screen
+        boolean rebufferData = false;
+        for(int i = 0; i < numSprites; i++){
+
+            if(sprites[i].isDirty()){
+                loadVertexProperties(i);
+                sprites[i].setClean();
+                rebufferData = true;
+            }
+        }
+
+        //for now, we shall rebuffer all the data
+        //god save my laptop >> god saved my laptop, nothing happened until this if was added
+
+        if(rebufferData){
+            glBindBuffer(GL_ARRAY_BUFFER,vboID);
+            glBufferSubData(GL_ARRAY_BUFFER,0, vertices);
+        }
 
         //use shaders
         shader.use();
@@ -119,7 +140,7 @@ public class RenderBatch {
 
         //bind textures
         for(int i = 0; i < textures.size(); i++){
-            System.out.println("Activated slot: " + i);
+            //System.out.println("Activated slot: " + i);
             glActiveTexture(GL_TEXTURE0+i);
             textures.get(i).bind();
         }
@@ -154,7 +175,7 @@ public class RenderBatch {
 
         if(tex!=null){
             if(!textures.contains(tex)){
-                System.out.println("Added: " + tex);
+                //System.out.println("Added: " + tex);
                 textures.add(tex);
             }
 
@@ -181,16 +202,16 @@ public class RenderBatch {
         int texID = 0;
 
         if(spr.getTexture()!=null){
-            System.out.println("The texture added is: " + spr.getTexture());
+            //System.out.println("The texture added is: " + spr.getTexture());
             for(int i = 0; i < textures.size(); i++){
                 if(textures.get(i)==spr.getTexture()){
-                    System.out.println("Got texture " + textures.get(i));
+                    //System.out.println("Got texture " + textures.get(i));
                     texID = i;
                     break;
                 }
             }
         }
-        System.out.println("The tex ID is: " + texID);
+        //System.out.println("The tex ID is: " + texID);
 
         //add vertices with appropriate properties
         float xAdd = 1.0f;
@@ -206,7 +227,7 @@ public class RenderBatch {
                 yAdd = 1.0f;
             }
 
-            //load position
+            //load position from transform of the sprite
             vertices[offset] = spr.gameObject.transform.position.x + (xAdd * spr.gameObject.transform.scale.x);
             vertices[offset+1] = spr.gameObject.transform.position.y + (yAdd * spr.gameObject.transform.scale.y);
 
@@ -276,5 +297,15 @@ public class RenderBatch {
 
     public boolean hasTexture(Texture t){
         return this.textures.contains(t);
+    }
+
+    public int getzIndex() {
+        return zIndex;
+    }
+
+    //to compare batches based on their z index
+    @Override
+    public int compareTo(@NotNull RenderBatch o) {
+        return Integer.compare(this.zIndex, o.getzIndex());
     }
 }

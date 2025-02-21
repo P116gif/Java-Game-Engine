@@ -23,11 +23,32 @@ public class Transform {
         init(position, scale);
     }
 
-
-
     public void init(Vector2f pos, Vector2f scal){
 
         this.position = pos;
         this.scale = scal;
     }
+
+    public Transform copy(){
+
+        return new Transform(new Vector2f(this.position), new Vector2f(this.scale));
+    }
+
+    public void copy(Transform to){
+        to.position.set(this.position);
+        to.scale.set(this.scale);
+    }
+
+    //to compare two transforms
+    @Override
+    public boolean equals(Object o){
+
+        if(o==null) return false;
+        if(!(o instanceof Transform)) return false;
+
+        Transform t = (Transform) o;
+
+        return (this.position.equals(t.position)) && (this.scale.equals(t.scale));
+    }
+
 }
