@@ -18,6 +18,10 @@ import org.lwjgl.opengl.GL11;
 import static org.lwjgl.glfw.GLFW.glfwGetTime;
 import static org.lwjgl.opengl.GL11.*;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Window {
 
     private final int width = 1920;
@@ -25,8 +29,10 @@ public class Window {
     private final String title = "Game Engine";
     private long glfwWindow;
     private static Window window = null;
-
+    private static final Logger logger = LoggerFactory.getLogger(Window.class);
     public float r,b,g,a;
+
+    private ImGuiLayer imguilayer;
 
     private static Scene currentScene = null;
 
@@ -68,8 +74,17 @@ public class Window {
         return get().currentScene;
     }
 
+    public static int getWidth() {
+        return get().width;
+    }
+
+    public static int getHeight() {
+        return get().height;
+    }
+
+
     public void run() {
-        System.out.println("Hello lwjgl" + Version.getVersion() + "!");
+        System.out.println("Hello lwjgl " + Version.getVersion() + "!");
         this.init();
         this.loop();
         Callbacks.glfwFreeCallbacks(this.glfwWindow);
@@ -81,7 +96,7 @@ public class Window {
     public void init() {
         GLFWErrorCallback.createPrint(System.err).set();
         if (!GLFW.glfwInit()) {
-            throw new IllegalStateException("Unable to initialise GLFW window.");
+           logger.error("Unable to initialise GLFW window.");
         } else {
             GLFW.glfwDefaultWindowHints();
             GLFW.glfwWindowHint(131076, 0);
@@ -89,7 +104,7 @@ public class Window {
             GLFW.glfwWindowHint(131080, 1);
             this.glfwWindow = GLFW.glfwCreateWindow(this.width, this.height, this.title, 0L, 0L);
             if (this.glfwWindow == 0L) {
-                throw new RuntimeException("Failed to create GLFW window.");
+                logger.error("Failed to create GLFW window.");
             } else {
                 GLFW.glfwSetCursorPosCallback(this.glfwWindow, Mouse_Listener::mousePosCallBack);
                 GLFW.glfwSetMouseButtonCallback(this.glfwWindow, Mouse_Listener::mouseButtonCallBack);
@@ -98,11 +113,14 @@ public class Window {
                 GLFW.glfwMakeContextCurrent(this.glfwWindow);
                 GLFW.glfwSwapInterval(1);
                 GLFW.glfwShowWindow(this.glfwWindow);
+
                 GL.createCapabilities();
 
                 glEnable(GL_BLEND);
                 // new color = sourceColor(source alpha) * destinationColor(1-sourceAlpha)
                 glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
+                this.imguilayer = new ImGuiLayer(glfwWindow);
 
                 Window.changeScene(0);
             }
@@ -128,11 +146,14 @@ public class Window {
             //while window has not closed, keep calling update function
             if(dt >= 0) currentScene.update(dt);
 
+            //this.imguilayer.run();
+
             GLFW.glfwSwapBuffers(this.glfwWindow);
 
             endTime = (float)glfwGetTime();
             dt = endTime - beginTime;
             beginTime = endTime;
+           // this.imguilayer.destroyImGui();
         }
 
     }

@@ -9,6 +9,7 @@ project.ext.jomlVersion = "1.10.7"
 project.ext.lwjglNatives = "natives-windows"
 
 repositories {
+
     mavenCentral()
 }
 
@@ -34,6 +35,9 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
     implementation "org.joml:joml:${jomlVersion}"
+
+    //for imgui
+    implementation fileTree('libs') {include '*.jar'}
 }
 
 dependencies {
