@@ -14,8 +14,11 @@ public class Main {
 
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
+
     public static void main(String[] args) {
         Window window = Window.get();
+        //ImGUI (Immediate Graphical User Interface) Layer
+        //Application.launch(new ImGuiLayer());
         window.run();
     }
 }
