@@ -1,0 +1,96 @@
+[
+  {
+    "name": "Object 1",
+    "componentList": [
+      {
+        "type": "Components.SpriteRenderer",
+        "properties": {
+          "color": {
+            "x": 1.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+          },
+          "sprite": {
+            "texCords": [
+              {
+                "x": 1.0,
+                "y": 1.0
+              },
+              {
+                "x": 1.0,
+                "y": 0.0
+              },
+              {
+                "x": 0.0,
+                "y": 0.0
+              },
+              {
+                "x": 0.0,
+                "y": 1.0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "transform": {
+      "position": {
+        "x": 200.0,
+        "y": 200.0
+      },
+      "scale": {
+        "x": 256.0,
+        "y": 300.0
+      }
+    },
+    "zIndex": 2
+  },
+  {
+    "name": "Object 1",
+    "componentList": [
+      {
+        "type": "Components.SpriteRenderer",
+        "properties": {
+          "color": {
+            "x": 0.0,
+            "y": 1.0,
+            "z": 0.8709676,
+            "w": 1.0
+          },
+          "sprite": {
+            "texCords": [
+              {
+                "x": 1.0,
+                "y": 1.0
+              },
+              {
+                "x": 1.0,
+                "y": 0.0
+              },
+              {
+                "x": 0.0,
+                "y": 0.0
+              },
+              {
+                "x": 0.0,
+                "y": 1.0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "transform": {
+      "position": {
+        "x": 200.0,
+        "y": 200.0
+      },
+      "scale": {
+        "x": 256.0,
+        "y": 300.0
+      }
+    },
+    "zIndex": 2
+  }
+]
