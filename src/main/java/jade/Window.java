@@ -7,11 +7,13 @@ package jade;
 
 import java.util.Objects;
 
+import Scenes.Level_Editor_Scene;
+import Scenes.Level_Scene;
+import Scenes.Scene;
 import imgui.ImGui;
 import imgui.flag.ImGuiConfigFlags;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
-import imgui.lwjgl3.glfw.ImGuiImplGlfwNative;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
@@ -26,6 +28,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import renderer.debugDraw;
 
 public class Window {
 
@@ -58,18 +61,18 @@ public class Window {
         {
             case 0:
                 currentScene = new Level_Editor_Scene();
-                currentScene.init();
-                currentScene.start();
                 break;
             case 1:
                 currentScene = new Level_Scene();
-                currentScene.init();
-                currentScene.start();
                 break;
             default:
                 assert false: "Unknown scene '" + newScene + "'";
                 break;
         }
+
+        currentScene.load();
+        currentScene.init();
+        currentScene.start();
     }
 
     public static Window get() {
@@ -163,7 +166,7 @@ public class Window {
         float endTime;
         float dt = -1.0f;
 
-        currentScene.load();
+
 
         //this is the looping
         //checks if the user hit the close button or alt+f4 or similar closing keys
@@ -171,6 +174,8 @@ public class Window {
 
             //processes events in the event queue and returns immediately
             GLFW.glfwPollEvents();
+
+            debugDraw.beginFrame();
 
             GL11.glClearColor(r, g, b, a);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
@@ -189,8 +194,12 @@ public class Window {
             }
 
             //while window has not closed, keep calling update function
-            if(dt >= 0) currentScene.update(dt);
+            if(dt >= 0){
 
+                debugDraw.draw();
+                currentScene.update(dt);
+
+            }
             GLFW.glfwSwapBuffers(this.glfwWindow);
             GLFW.glfwPollEvents();
 

@@ -2,6 +2,8 @@ package jade;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import Components.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,24 +12,22 @@ public class GameObject {
 
     private static final Logger logger = LoggerFactory.getLogger(GameObject.class);
     private String name;
+
     private List<Component> componentList;
     public Transform transform;
     private int zIndex;
 
-    /*Constructors*/
+    private static int ID_COUNTER = 0;
+    private int uid = -1;
 
-    public GameObject(String name){
-        this.name = name;
-        this.zIndex = 0;
-        this.componentList = new ArrayList<>();
-        this.transform = new Transform();
-    }
+    /*Constructor*/
 
     public GameObject(String name, Transform trans, int z){
         this.name = name;
         this.zIndex = z;
         this.componentList = new ArrayList<>();
         this.transform = trans;
+        this.uid = ID_COUNTER++;
     }
 
 
@@ -66,6 +66,8 @@ public class GameObject {
     }
 
     public void addComponent(Component c){
+
+        c.generateID();
         this.componentList.add(c);
         c.gameObject = this;
     }
@@ -91,5 +93,19 @@ public class GameObject {
 
     public int getzIndex() {
         return zIndex;
+    }
+
+    public static void init(int maxID){
+
+        ID_COUNTER = maxID;
+    }
+
+    public int getUid(){
+
+        return this.uid;
+    }
+
+    public List<Component> getComponentList() {
+        return componentList;
     }
 }

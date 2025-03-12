@@ -1,96 +1,116 @@
 [
   {
-    "name": "Object 1",
+    "name": "Sprite_Object_Gen 0",
     "componentList": [
       {
         "type": "Components.SpriteRenderer",
         "properties": {
           "color": {
             "x": 1.0,
-            "y": 0.0,
-            "z": 0.0,
+            "y": 1.0,
+            "z": 1.0,
             "w": 1.0
           },
           "sprite": {
+            "texture": {
+              "filepath": "assets/spritesheets/decorationsAndBlocks.png",
+              "textureId": 1,
+              "width": 112,
+              "height": 192
+            },
             "texCords": [
               {
-                "x": 1.0,
+                "x": 0.14285715,
                 "y": 1.0
               },
               {
-                "x": 1.0,
-                "y": 0.0
+                "x": 0.14285715,
+                "y": 0.9166667
               },
               {
                 "x": 0.0,
-                "y": 0.0
+                "y": 0.9166667
               },
               {
                 "x": 0.0,
                 "y": 1.0
               }
-            ]
-          }
+            ],
+            "width": 16.0,
+            "height": 16.0
+          },
+          "uid": 2
         }
       }
     ],
     "transform": {
       "position": {
-        "x": 200.0,
-        "y": 200.0
+        "x": 768.0,
+        "y": 480.0
       },
       "scale": {
-        "x": 256.0,
-        "y": 300.0
+        "x": 32.0,
+        "y": 32.0
       }
     },
-    "zIndex": 2
+    "zIndex": 0,
+    "uid": 1
   },
   {
-    "name": "Object 1",
+    "name": "Sprite_Object_Gen 1",
     "componentList": [
       {
         "type": "Components.SpriteRenderer",
         "properties": {
           "color": {
-            "x": 0.0,
+            "x": 1.0,
             "y": 1.0,
-            "z": 0.8709676,
+            "z": 1.0,
             "w": 1.0
           },
           "sprite": {
+            "texture": {
+              "filepath": "assets/spritesheets/decorationsAndBlocks.png",
+              "textureId": 1,
+              "width": 112,
+              "height": 192
+            },
             "texCords": [
               {
-                "x": 1.0,
+                "x": 0.2857143,
                 "y": 1.0
               },
               {
-                "x": 1.0,
-                "y": 0.0
+                "x": 0.2857143,
+                "y": 0.9166667
               },
               {
-                "x": 0.0,
-                "y": 0.0
+                "x": 0.14285715,
+                "y": 0.9166667
               },
               {
-                "x": 0.0,
+                "x": 0.14285715,
                 "y": 1.0
               }
-            ]
-          }
+            ],
+            "width": 16.0,
+            "height": 16.0
+          },
+          "uid": 3
         }
       }
     ],
     "transform": {
       "position": {
-        "x": 200.0,
-        "y": 200.0
+        "x": 736.0,
+        "y": 480.0
       },
       "scale": {
-        "x": 256.0,
-        "y": 300.0
+        "x": 32.0,
+        "y": 32.0
       }
     },
-    "zIndex": 2
+    "zIndex": 0,
+    "uid": 2
   }
 ]

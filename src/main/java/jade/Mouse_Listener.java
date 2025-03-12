@@ -5,6 +5,8 @@
 
 package jade;
 
+import org.joml.Vector4f;
+
 public class Mouse_Listener {
 
     private static Mouse_Listener instance;
@@ -64,6 +66,37 @@ public class Mouse_Listener {
 
     public static float getY() {
         return (float)get().yPos;
+    }
+
+    public static float getOrthoX(){
+
+        //to get x and y values in the range of [0 to 1] which is the converted to [-1,1]
+        //by multiplying by 2 and subtracting 1
+        float currentX = (getX()/(float)Window.getWidth())*2f - 1f;
+
+        Vector4f temp = new Vector4f(currentX, 0, 0, 1);
+
+        //make the screen coordinates [-1,1] into world coordinates
+        temp.mul(Window.getScene().camera().getInverseProjection())
+                .mul(Window.getScene().camera().getInverseView());
+
+        //now we return the x value of world coordinate
+        //the world co-ordinate is decided by camera width and height
+        //as of now camera starts at 0 on the x side and 0 on the y
+        //camera initiation is in level editor scene init() method
+        return temp.x;
+    }
+
+    public static float getOrthoY(){
+
+        float currentY = ((Window.getHeight() - getY())/(float)Window.getHeight())*2f - 1f;
+
+        Vector4f temp = new Vector4f(0, currentY, 0, 1);
+
+        temp.mul(Window.getScene().camera().getInverseProjection())
+                .mul(Window.getScene().camera().getInverseView());
+
+        return temp.y;
     }
 
     public static float dX() {

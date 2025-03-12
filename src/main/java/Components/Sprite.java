@@ -14,16 +14,7 @@ public class Sprite {
 
     };
 
-//    public Sprite(Texture tex){
-//
-//        this.texture = tex;
-//    }
-//
-//    public Sprite(Texture tex, Vector2f[] cords){
-//        this.texture = tex;
-//        this.texCords = cords;
-//    }
-
+    private float width, height;
 
     public void setTexture(Texture texture) {
         this.texture = texture;
@@ -39,5 +30,26 @@ public class Sprite {
 
     public void setTexCords(Vector2f[] texCords) {
         this.texCords = texCords;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
+    public int getTexId(){
+
+        return texture == null? -1 : texture.getId();
     }
 }

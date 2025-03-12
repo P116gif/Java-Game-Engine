@@ -11,7 +11,7 @@ java.nio.file.NoSuchFileException: default.glsl
 	at renderer.RenderBatch.<init>(renderBatch.java:48)
 	at renderer.Renderer.add(Renderer.java:39)
 	at renderer.Renderer.add(Renderer.java:23)
-	at jade.Scene.start(Scene.java:24)
+	at Scenes.Scene.start(Scene.java:24)
 	at jade.Window.changeScene(Window.java:44)
 	at jade.Window.init(Window.java:101)
 	at jade.Window.run(Window.java:71)
@@ -38,7 +38,84 @@ java.nio.file.NoSuchFileException: level.txt
 	at java.base/java.nio.file.Files.newByteChannel(Files.java:371)
 	at java.base/java.nio.file.Files.newByteChannel(Files.java:422)
 	at java.base/java.nio.file.Files.readAllBytes(Files.java:3206)
-	at jade.Scene.load(Scene.java:110)
+	at Scenes.Scene.load(Scene.java:110)
 	at jade.Window.loop(Window.java:166)
 	at jade.Window.run(Window.java:105)
 	at Main.main(Main.java:22)
+2025-03-05 19:27:08 [main] ERROR jade.GameObject - Error while reading level.txt
+java.nio.file.NoSuchFileException: level.txt
+	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:85)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+	at java.base/sun.nio.fs.WindowsFileSystemProvider.newByteChannel(WindowsFileSystemProvider.java:235)
+	at java.base/java.nio.file.Files.newByteChannel(Files.java:371)
+	at java.base/java.nio.file.Files.newByteChannel(Files.java:422)
+	at java.base/java.nio.file.Files.readAllBytes(Files.java:3206)
+	at Scenes.Scene.load(Scene.java:110)
+	at jade.Window.changeScene(Window.java:70)
+	at jade.Window.init(Window.java:156)
+	at jade.Window.run(Window.java:99)
+	at Main.main(Main.java:22)
+2025-03-05 19:46:16 [main] ERROR jade.GameObject - Error while reading level.txt
+java.nio.file.NoSuchFileException: level.txt
+	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:85)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+	at java.base/sun.nio.fs.WindowsFileSystemProvider.newByteChannel(WindowsFileSystemProvider.java:235)
+	at java.base/java.nio.file.Files.newByteChannel(Files.java:371)
+	at java.base/java.nio.file.Files.newByteChannel(Files.java:422)
+	at java.base/java.nio.file.Files.readAllBytes(Files.java:3206)
+	at Scenes.Scene.load(Scene.java:110)
+	at jade.Window.loop(Window.java:166)
+	at jade.Window.run(Window.java:105)
+	at Main.main(Main.java:22)
+2025-03-06 13:11:17 [main] ERROR jade.GameObject - Error while reading level.txt
+java.nio.file.NoSuchFileException: level.txt
+	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:85)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+	at java.base/sun.nio.fs.WindowsFileSystemProvider.newByteChannel(WindowsFileSystemProvider.java:235)
+	at java.base/java.nio.file.Files.newByteChannel(Files.java:371)
+	at java.base/java.nio.file.Files.newByteChannel(Files.java:422)
+	at java.base/java.nio.file.Files.readAllBytes(Files.java:3206)
+	at Scenes.Scene.load(Scene.java:113)
+	at jade.Window.changeScene(Window.java:72)
+	at jade.Window.init(Window.java:158)
+	at jade.Window.run(Window.java:101)
+	at Main.main(Main.java:22)
+2025-03-10 20:52:44 [main] ERROR renderer.Shader - Vertex Shader Compilation Failed for 'assets/shaders/debugLine2D.glsl'
+2025-03-10 20:52:44 [main] ERROR renderer.Shader - Shader Compilation Log:
+ERROR: 0:16: 'gl_position' : undeclared identifier 
+ERROR: 0:16: 'assign' :  cannot convert from '4-component vector of highp float' to 'highp float'
+
+
+2025-03-10 20:53:10 [main] ERROR renderer.Shader - Error: 'assets/shaders/debugLine2D.glsl' 
+	Fragment Shader Compilation Failed
+2025-03-10 20:53:10 [main] ERROR renderer.Shader - ERROR: 0:10: 'color' : undeclared identifier 
+ERROR: 0:10: 'assign' :  cannot convert from '4-component vector of highp float' to 'highp float'
+
+
+2025-03-10 20:53:41 [main] ERROR renderer.Shader - Error: 'assets/shaders/debugLine2D.glsl' 
+	Fragment Shader Compilation Failed
+2025-03-10 20:53:41 [main] ERROR renderer.Shader - ERROR: 0:10: 'color' : undeclared identifier 
+ERROR: 0:10: 'assign' :  cannot convert from '4-component vector of highp float' to 'highp float'
+
+
+2025-03-10 20:53:47 [main] ERROR renderer.Shader - Error: 'assets/shaders/debugLine2D.glsl' 
+	Fragment Shader Compilation Failed
+2025-03-10 20:53:47 [main] ERROR renderer.Shader - ERROR: 0:10: 'color' : undeclared identifier 
+ERROR: 0:10: 'f' : syntax error syntax error
+
+
+2025-03-10 20:53:54 [main] ERROR renderer.Shader - Error: 'assets/shaders/debugLine2D.glsl' 
+	Fragment Shader Compilation Failed
+2025-03-10 20:53:54 [main] ERROR renderer.Shader - ERROR: 0:10: 'color' : undeclared identifier 
+ERROR: 0:10: 'assign' :  cannot convert from '4-component vector of highp float' to 'highp float'
+
+
+2025-03-10 20:57:29 [main] ERROR renderer.Shader - Error: 'assets/shaders/debugLine2D.glsl' 
+	Fragment Shader Compilation Failed
+2025-03-10 20:57:29 [main] ERROR renderer.Shader - ERROR: 0:10: 'color' : undeclared identifier 
+ERROR: 0:10: 'assign' :  cannot convert from '4-component vector of highp float' to 'highp float'
+
+

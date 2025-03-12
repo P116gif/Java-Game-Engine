@@ -1,7 +1,7 @@
 package Gson;
 
 import com.google.gson.*;
-import jade.Component;
+import Components.Component;
 import jade.GameObject;
 import jade.Transform;
 

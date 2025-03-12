@@ -38,8 +38,13 @@ public class SpriteSheet {
             };
 
             Sprite sprite = new Sprite();
+            //setting height and width of sprites
+            sprite.setHeight(spriteHeight);
+            sprite.setWidth(spriteWidth);
+            //setting texture and tex cords of sprite
             sprite.setTexture(this.texture);
             sprite.setTexCords(texCords);
+            //adding sprite to list
             this.sprites.add(sprite);
 
             currentX += (spriteWidth + spacing);
@@ -53,8 +58,12 @@ public class SpriteSheet {
     }
 
     public Sprite getSprite(int index){
+
         return this.sprites.get(index);
     }
 
+    public int size() {
 
+        return sprites.size();
+    }
 }

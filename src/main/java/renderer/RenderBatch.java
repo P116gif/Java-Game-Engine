@@ -114,6 +114,7 @@ public class RenderBatch implements Comparable<RenderBatch> {
         // for every site in the sprite array,
         //if the sprite is dirty, then reload the vertex properties
         //and rebuffer the data to be drawn on the screen
+
         boolean rebufferData = false;
         for(int i = 0; i < numSprites; i++){
 

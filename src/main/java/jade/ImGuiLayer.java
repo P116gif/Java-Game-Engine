@@ -1,13 +1,12 @@
 package jade;
 
+import Scenes.Scene;
 import imgui.ImFontAtlas;
 import imgui.ImFontConfig;
 import imgui.ImGui;
 
 
 public class ImGuiLayer {
-
-    boolean showtext = false;
 
 
     public void initImGui(){
@@ -16,7 +15,7 @@ public class ImGuiLayer {
         final ImFontConfig fontConfig = new ImFontConfig();
         fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesDefault());
         fontConfig.setPixelSnapH(true);
-        fontAtlas.addFontFromFileTTF("assets\\fonts\\agency.TTF", 32, fontConfig);
+        fontAtlas.addFontFromFileTTF("assets\\fonts\\agency.TTF", 20, fontConfig);
 
     }
 

@@ -1,7 +1,6 @@
 package Components;
 
 import imgui.ImGui;
-import jade.Component;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 import renderer.Texture;
@@ -14,10 +13,7 @@ public class SpriteRenderer extends Component {
 
     // to create movement and animations
     private transient Transform lastTransform;
-    private transient boolean dirty = false;
-
-
-
+    private transient boolean dirty = true;
 
 //    public SpriteRenderer(Vector4f col){
 //        this.color = col;

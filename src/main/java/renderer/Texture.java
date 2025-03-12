@@ -31,7 +31,6 @@ public class Texture {
 
         //generate texture on gpu
         textureId = glGenTextures();
-        glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textureId);
 
         //set the texture parameters
@@ -97,5 +96,10 @@ public class Texture {
 
     public int getWidth() {
         return width;
+    }
+
+    public int getId() {
+
+        return textureId;
     }
 }
