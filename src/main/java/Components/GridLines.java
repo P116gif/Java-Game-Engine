@@ -4,7 +4,7 @@ import Util.settings;
 import jade.Window;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import renderer.debugDraw;
+import renderer.DebugDraw;
 
 public class GridLines extends Component{
 
@@ -33,12 +33,12 @@ public class GridLines extends Component{
 
             if(i < numVerticalLines){
 
-                debugDraw.addLine2D(new Vector2f(x,firstY), new Vector2f(x, firstY + height), clr);
+                DebugDraw.addLine2D(new Vector2f(x,firstY), new Vector2f(x, firstY + height), clr);
             }
 
             if(i < numHorizontalLines){
 
-                debugDraw.addLine2D(new Vector2f(firstX,y), new Vector2f(firstX + width, y), clr);
+                DebugDraw.addLine2D(new Vector2f(firstX,y), new Vector2f(firstX + width, y), clr);
             }
         }
     //TODO: MAKE GRID LINES IN BACKGROUND, NOT FOREGROUND

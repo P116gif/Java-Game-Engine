@@ -6,10 +6,8 @@ import imgui.ImGui;
 import imgui.ImVec2;
 import jade.*;
 import org.joml.Vector2f;
-import org.joml.Vector4f;
-import renderer.Shader;
-import renderer.Texture;
-import renderer.debugDraw;
+import org.joml.Vector3f;
+import renderer.DebugDraw;
 
 
 public class Level_Editor_Scene extends Scene {
@@ -26,7 +24,7 @@ public class Level_Editor_Scene extends Scene {
     public void init(){
 
         //LEVEL EDITOR BASICS
-        levelEditorStuff.addComponent(new GridLines());
+        //levelEditorStuff.addComponent(new GridLines());
         levelEditorStuff.addComponent(new MouseControls());
 
         loadResources();
@@ -67,11 +65,17 @@ public class Level_Editor_Scene extends Scene {
 
     }
 
+    float x = 0.0f;
+    float y = 0.0f;
+
     @Override
     public void update(float deltaTime) {
 
         levelEditorStuff.update(deltaTime);
 
+        DebugDraw.addCircle2D(new Vector2f(x,y), 64, new Vector3f(0,1,0), 3);
+        x+=(50f*deltaTime);
+        y+=(50f*deltaTime);
         for(GameObject g: this.gameObjects){
             g.update(deltaTime);
         }

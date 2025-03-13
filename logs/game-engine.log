@@ -119,3 +119,4 @@ ERROR: 0:10: 'assign' :  cannot convert from '4-component vector of highp float'
 ERROR: 0:10: 'assign' :  cannot convert from '4-component vector of highp float' to 'highp float'
 
 
+2025-03-13 12:49:07 [main] ERROR renderer.Texture - Using default constructor for texture... Why?

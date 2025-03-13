@@ -25,6 +25,19 @@ public class Texture {
     public Texture(){
     }
 
+    public Texture(int width, int height) {
+        //ONLY FOR FRAME BUFFER FOR NOW
+        this.filepath = "Generated";
+
+        //generate texture on GPU
+        textureId = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, textureId);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0,
+                GL_RGB, GL_UNSIGNED_BYTE, 0);
+
+        //created space withing this texture ID
+    }
+
     public void init(String filepath){
 
         this.filepath = filepath;
@@ -101,5 +114,23 @@ public class Texture {
     public int getId() {
 
         return textureId;
+    }
+
+    public String getFilePath(){
+
+        return this.filepath;
+    }
+
+    @Override
+    public boolean equals(Object o){
+
+        if(o == null) return false;
+
+        if(!(o instanceof Texture)) return false;
+
+        Texture otex = (Texture) o;
+
+        return otex.getWidth() == this.width && otex.getHeight() == this.height
+                && otex.getId() == this.textureId && otex.getFilePath().equals(this.filepath);
     }
 }

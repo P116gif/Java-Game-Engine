@@ -28,7 +28,8 @@ import static org.lwjgl.opengl.GL11.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import renderer.debugDraw;
+import renderer.DebugDraw;
+import renderer.FrameBuffer;
 
 public class Window {
 
@@ -47,6 +48,7 @@ public class Window {
     private ImGuiLayer imGuiLayer = null;
 
     private static Scene currentScene = null;
+    private FrameBuffer frameBuffer;
 
     private Window(ImGuiLayer imGuiLayer) {
         r=1;
@@ -156,6 +158,7 @@ public class Window {
         glEnable(GL_BLEND);
         // new color = sourceColor(source alpha) * destinationColor(1-sourceAlpha)
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
         Window.changeScene(0);
     }
 
@@ -175,7 +178,7 @@ public class Window {
             //processes events in the event queue and returns immediately
             GLFW.glfwPollEvents();
 
-            debugDraw.beginFrame();
+            DebugDraw.beginFrame();
 
             GL11.glClearColor(r, g, b, a);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
@@ -196,10 +199,11 @@ public class Window {
             //while window has not closed, keep calling update function
             if(dt >= 0){
 
-                debugDraw.draw();
+                DebugDraw.draw();
                 currentScene.update(dt);
 
             }
+
             GLFW.glfwSwapBuffers(this.glfwWindow);
             GLFW.glfwPollEvents();
 

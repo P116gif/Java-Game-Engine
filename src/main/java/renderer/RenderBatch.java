@@ -204,7 +204,7 @@ public class RenderBatch implements Comparable<RenderBatch> {
         if(spr.getTexture()!=null){
             //System.out.println("The texture added is: " + spr.getTexture());
             for(int i = 0; i < textures.size(); i++){
-                if(textures.get(i)==spr.getTexture()){
+                if(textures.get(i).equals(spr.getTexture())){
                     //System.out.println("Got texture " + textures.get(i));
                     texID = i;
                     break;
