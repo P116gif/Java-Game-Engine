@@ -1,15 +1,23 @@
 package jade;
 
+import Editor.GameViewWindow;
 import Scenes.Scene;
 import imgui.ImFontAtlas;
 import imgui.ImFontConfig;
 import imgui.ImGui;
+import imgui.ImGuiIO;
+import imgui.flag.ImGuiCond;
+import imgui.flag.ImGuiConfigFlags;
+import imgui.flag.ImGuiStyleVar;
+import imgui.flag.ImGuiWindowFlags;
+import imgui.type.ImBoolean;
 
 
 public class ImGuiLayer {
 
 
     public void initImGui(){
+
         ImGui.createContext();
         final ImFontAtlas fontAtlas = ImGui.getIO().getFonts();
         final ImFontConfig fontConfig = new ImFontConfig();
@@ -17,12 +25,44 @@ public class ImGuiLayer {
         fontConfig.setPixelSnapH(true);
         fontAtlas.addFontFromFileTTF("assets\\fonts\\agency.TTF", 20, fontConfig);
 
+        //enable docking
+        final ImGuiIO io = ImGui.getIO();
+        io.setConfigFlags(ImGuiConfigFlags.DockingEnable);
     }
 
     public void imGui(Scene currentScene){
 
         ImGui.newFrame();
+        setupDockSpace();
         currentScene.sceneImgui();
+        ImGui.showDemoWindow();
+        GameViewWindow.imgui();
+        ImGui.end();
         ImGui.render();
+    }
+
+    private void setupDockSpace() {
+
+        int windowFlags = ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking;
+
+        //always start at top left corner of screen
+        ImGui.setNextWindowPos(0.0f, 0.0f, ImGuiCond.Always);
+        ImGui.setNextWindowSize(Window.getWidth(), Window.getHeight());
+        ImGui.pushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
+        ImGui.pushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
+
+        windowFlags |= ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse |
+                        ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove |
+                        ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
+
+        ImGui.begin("DocSpace demo", new ImBoolean(true), windowFlags);
+        ImGui.popStyleVar(2);
+
+        //Dockspace
+        //without it, the windows will take up the whole screen when docking and won't let other windows
+        //show up
+
+        ImGui.dockSpace(ImGui.getID("DockSpace"));
+
     }
 }

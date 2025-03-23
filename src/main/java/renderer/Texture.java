@@ -17,7 +17,7 @@ public class Texture {
 
     //simply for debugging
     private String filepath;
-    private int textureId;
+    private transient int textureId;
     private int width, height;
 
     private static Logger logger = LoggerFactory.getLogger(Texture.class);
@@ -32,6 +32,11 @@ public class Texture {
         //generate texture on GPU
         textureId = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, textureId);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0,
                 GL_RGB, GL_UNSIGNED_BYTE, 0);
 

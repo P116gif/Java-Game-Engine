@@ -24,7 +24,7 @@ public class Level_Editor_Scene extends Scene {
     public void init(){
 
         //LEVEL EDITOR BASICS
-        //levelEditorStuff.addComponent(new GridLines());
+        levelEditorStuff.addComponent(new GridLines());
         levelEditorStuff.addComponent(new MouseControls());
 
         loadResources();
@@ -34,7 +34,8 @@ public class Level_Editor_Scene extends Scene {
 
         if(levelLoaded){
             sprites = AssetPool.getSpriteSheet("assets/spritesheets/decorationsAndBlocks.png");
-            activeGameObject = gameObjects.get(0);
+            if(!gameObjects.isEmpty())
+                activeGameObject = gameObjects.get(0);
             return;
         }
 
@@ -63,6 +64,19 @@ public class Level_Editor_Scene extends Scene {
                         16, 16, 81, 0));
 
 
+        //what this does is that for every texture it loads from the asset pool
+        //instead of creating new textures for each object
+        for(GameObject g: gameObjects){
+
+            if(g.getComponent(SpriteRenderer.class) != null){
+
+                SpriteRenderer spr = g.getComponent(SpriteRenderer.class);
+
+                if(spr.getTexture()!=null){
+                    spr.setTexture(AssetPool.getTexture(spr.getTexture().getFilePath()));
+                }
+            }
+        }
     }
 
     float x = 0.0f;
@@ -73,9 +87,6 @@ public class Level_Editor_Scene extends Scene {
 
         levelEditorStuff.update(deltaTime);
 
-        DebugDraw.addCircle2D(new Vector2f(x,y), 64, new Vector3f(0,1,0), 3);
-        x+=(50f*deltaTime);
-        y+=(50f*deltaTime);
         for(GameObject g: this.gameObjects){
             g.update(deltaTime);
         }

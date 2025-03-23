@@ -42,6 +42,7 @@ public class GridLines extends Component{
             }
         }
     //TODO: MAKE GRID LINES IN BACKGROUND, NOT FOREGROUND
+    //TODO: FIX GRIDLINES CALCULATIONS... THEY ARE MESSED UP
     }
 
 }

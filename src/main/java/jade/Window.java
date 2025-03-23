@@ -5,6 +5,7 @@
 
 package jade;
 
+import java.awt.*;
 import java.util.Objects;
 
 import Scenes.Level_Editor_Scene;
@@ -97,6 +98,16 @@ public class Window {
         return get().height;
     }
 
+    public static FrameBuffer getFrameBuffer() {
+
+        return get().frameBuffer;
+    }
+
+    public static float getTargetAspectRatio(){
+
+        return 16.0f/9.0f;
+    }
+
 
     public void run() {
         System.out.println("Hello lwjgl " + Version.getVersion() + "!");
@@ -159,6 +170,8 @@ public class Window {
         // new color = sourceColor(source alpha) * destinationColor(1-sourceAlpha)
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
+         this.frameBuffer = new FrameBuffer(1920, 1600);
+         glViewport(0,0 ,1920, 1600);
         Window.changeScene(0);
     }
 
@@ -180,14 +193,17 @@ public class Window {
 
             DebugDraw.beginFrame();
 
-            GL11.glClearColor(r, g, b, a);
-            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
             //imgui
             imGuiGlfw.newFrame();
             imGuiGl3.newFrame();
             imGuiLayer.imGui(currentScene);
             imGuiGl3.renderDrawData(ImGui.getDrawData());
+
+            this.frameBuffer.bind();
+            GL11.glClearColor(r, g, b, a);
+            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+
 
             if (ImGui.getIO().hasConfigFlags(ImGuiConfigFlags.ViewportsEnable)) {
                 final long backupCurrentContext = GLFW.glfwGetCurrentContext();
@@ -197,12 +213,14 @@ public class Window {
             }
 
             //while window has not closed, keep calling update function
+
             if(dt >= 0){
 
                 DebugDraw.draw();
                 currentScene.update(dt);
 
             }
+            this.frameBuffer.unbind();
 
             GLFW.glfwSwapBuffers(this.glfwWindow);
             GLFW.glfwPollEvents();
