@@ -1,6 +1,8 @@
 package jade;
 
 import Editor.GameViewWindow;
+import Editor.PropertiesWindow;
+import Scenes.Level_Editor_Scene;
 import Scenes.Scene;
 import imgui.ImFontAtlas;
 import imgui.ImFontConfig;
@@ -11,10 +13,14 @@ import imgui.flag.ImGuiConfigFlags;
 import imgui.flag.ImGuiStyleVar;
 import imgui.flag.ImGuiWindowFlags;
 import imgui.type.ImBoolean;
+import renderer.PickingTexture;
+
+import java.util.logging.Level;
 
 
 public class ImGuiLayer {
 
+    private PropertiesWindow propertiesWindow;
 
     public void initImGui(){
 
@@ -34,9 +40,10 @@ public class ImGuiLayer {
 
         ImGui.newFrame();
         setupDockSpace();
-        currentScene.sceneImgui();
-        ImGui.showDemoWindow();
+        currentScene.imgui();
         GameViewWindow.imgui();
+        propertiesWindow.update(currentScene);
+        propertiesWindow.imgui();
         ImGui.end();
         ImGui.render();
     }
@@ -61,8 +68,12 @@ public class ImGuiLayer {
         //Dockspace
         //without it, the windows will take up the whole screen when docking and won't let other windows
         //show up
-
         ImGui.dockSpace(ImGui.getID("DockSpace"));
 
+    }
+
+    public void setPropertiesWindow(PickingTexture pT) {
+
+        this.propertiesWindow = new PropertiesWindow(pT);
     }
 }

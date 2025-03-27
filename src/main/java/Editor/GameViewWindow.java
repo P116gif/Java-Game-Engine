@@ -3,7 +3,9 @@ package Editor;
 import imgui.ImVec2;
 import imgui.flag.ImGuiWindowFlags;
 import imgui.ImGui;
+import jade.Mouse_Listener;
 import jade.Window;
+import org.joml.Vector2f;
 
 public class GameViewWindow {
 
@@ -17,9 +19,17 @@ public class GameViewWindow {
         //draw the next thing at the given position
         ImGui.setCursorPos(windowPos.x, windowPos.y);
 
+        ImVec2 topleft = new ImVec2();
+        ImGui.getCursorScreenPos(topleft);
+
+        topleft.x -= ImGui.getScrollX();
+        topleft.y -= ImGui.getScrollY();
+
         int textureID = Window.getFrameBuffer().getTextureID();
         ImGui.image(textureID, windowSize.x, windowSize.y, 0,1, 1, 0);
 
+        Mouse_Listener.setGameViewportPos(new Vector2f(topleft.x, topleft.y));
+        Mouse_Listener.setGameViewportSize(new Vector2f(windowSize.x, windowSize.y));
         ImGui.end();
     }
 

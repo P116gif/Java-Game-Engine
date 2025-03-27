@@ -1,7 +1,6 @@
 package renderer;
 
 import Components.SpriteRenderer;
-import Util.AssetPool;
 import jade.Window;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2f;
@@ -31,15 +30,17 @@ public class RenderBatch implements Comparable<RenderBatch> {
     private final int colorSize = 4;
     private final int texCordsSize = 2;
     private final int texIDSize = 1;
+    private final int entityIdSize = 1;
 
     //offsets need to be in bytes
     private final int posOffset = 0;
     private final int colorOffset = posOffset + posSize* Float.BYTES;
     private final int texCordsOffset = colorOffset + colorSize* Float.BYTES;
     private final int texIDOffset = texCordsOffset + texCordsSize* Float.BYTES;
+    private final int entityIDOffset = texIDOffset + texIDOffset* Float.BYTES;
 
     //size of one vertex
-    private final int vertexSize = 9;
+    private final int vertexSize = 10;
     private final int vertexSizeBytes = vertexSize * Float.BYTES;
 
     //sprite container, number of sprites
@@ -52,7 +53,6 @@ public class RenderBatch implements Comparable<RenderBatch> {
 
     private int vaoID, vboID;
     private int maxBatchSize;
-    private Shader shader;
 
 
     public RenderBatch(int size, int z){
@@ -60,7 +60,6 @@ public class RenderBatch implements Comparable<RenderBatch> {
         //to know how many you want to render at once
         this.maxBatchSize = size;
         this.zIndex = z;
-        shader = AssetPool.getShader("assets/shaders/default.glsl");
 
         this.sprites = new SpriteRenderer[maxBatchSize];
 
@@ -106,6 +105,9 @@ public class RenderBatch implements Comparable<RenderBatch> {
         glVertexAttribPointer(3, texIDSize, GL_FLOAT, false, vertexSizeBytes, texIDOffset);
         glEnableVertexAttribArray(3);
 
+        glVertexAttribPointer(4, entityIdSize, GL_FLOAT, false, vertexSizeBytes, entityIDOffset);
+        glEnableVertexAttribArray(4);
+
     }
 
 
@@ -134,7 +136,7 @@ public class RenderBatch implements Comparable<RenderBatch> {
         }
 
         //use shaders
-        shader.use();
+        Shader shader = Renderer.getBoundShader();
         shader.uploadMat4f("projectionMatrix", Window.getScene().camera().getProjectionMatrix());
         shader.uploadMat4f("viewMatrix", Window.getScene().camera().getViewMatrix());
 
@@ -243,6 +245,9 @@ public class RenderBatch implements Comparable<RenderBatch> {
 
             //load texture id
             vertices[offset+8] = texID;
+
+            //load entity ID for the texture behind
+            vertices[offset + 9] = spr.gameObject.getUid() + 1;
 
             offset+=vertexSize;
 

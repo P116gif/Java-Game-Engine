@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class Scene {
 
@@ -26,7 +27,7 @@ public abstract class Scene {
     protected Camera camera;
     private boolean isRunning = false;
     protected List<GameObject> gameObjects = new ArrayList<>();
-    protected GameObject activeGameObject = null;
+
     protected boolean levelLoaded = false;
     private static final Logger logger = LoggerFactory.getLogger(GameObject.class);
 
@@ -58,23 +59,11 @@ public abstract class Scene {
     }
 
     public abstract void update(float deltaTime);
+    public abstract void render();
 
     public Camera camera(){
 
         return this.camera;
-    }
-
-    public void sceneImgui(){
-
-        if(activeGameObject!=null){
-
-            ImGui.begin("Inspector");
-            activeGameObject.imgui();
-            ImGui.end();
-        }
-
-        imgui();
-
     }
 
     public void imgui(){}
@@ -146,5 +135,15 @@ public abstract class Scene {
             this.levelLoaded = true;
 
         }
+    }
+
+    public GameObject getGameObject(int gameObjectID){
+
+        System.out.println("inside scene: " +   gameObjectID);
+        Optional<GameObject> result = this.gameObjects.stream()
+                .filter(gameObject -> gameObject.getUid() == gameObjectID)
+                .findFirst();
+        System.out.println(result);
+        return result.orElse(null);
     }
 }

@@ -23,19 +23,18 @@ public class Level_Editor_Scene extends Scene {
     @Override
     public void init(){
 
-        //LEVEL EDITOR BASICS
-        levelEditorStuff.addComponent(new GridLines());
-        levelEditorStuff.addComponent(new MouseControls());
-
-        loadResources();
-
         //CAMERA
         this.camera = new Camera(new Vector2f(0,0));
 
+        //LEVEL EDITOR BASICS
+        levelEditorStuff.addComponent(new GridLines());
+        levelEditorStuff.addComponent(new MouseControls());
+        levelEditorStuff.addComponent(new EditorCamera(this.camera));
+
+        loadResources();
+
         if(levelLoaded){
             sprites = AssetPool.getSpriteSheet("assets/spritesheets/decorationsAndBlocks.png");
-            if(!gameObjects.isEmpty())
-                activeGameObject = gameObjects.get(0);
             return;
         }
 
@@ -86,10 +85,16 @@ public class Level_Editor_Scene extends Scene {
     public void update(float deltaTime) {
 
         levelEditorStuff.update(deltaTime);
-
+        this.camera.adjustProjection();
         for(GameObject g: this.gameObjects){
             g.update(deltaTime);
         }
+
+
+    }
+
+    @Override
+    public void render(){
 
         //calls renderer render function every update call
         this.renderer.render();

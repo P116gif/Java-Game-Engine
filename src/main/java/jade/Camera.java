@@ -10,7 +10,7 @@ public class Camera {
 
     private Matrix4f projectionMatrix, viewMatrix, inverseProjection, inverseView;
     public Vector2f position;
-
+    private float zoom = 1.0f;
     private Vector2f projectionSize = new Vector2f(32.0f * 40.0f, 32.0f * 21.0f);
 
     public Camera(Vector2f position){
@@ -28,7 +28,8 @@ public class Camera {
         projectionMatrix.identity(); //gives us an identity matrix
         //give the dimension that the camera should be able to see
         //the near clipping and the far clipping
-        projectionMatrix.ortho(0.0f, projectionSize.x, 0.0f, projectionSize.y, 0.0f, 100.f);
+        projectionMatrix.ortho(0.0f, projectionSize.x * this.zoom, 0.0f
+                , projectionSize.y * this.zoom, 0.0f, 100.f);
         //store inverse inside inverseProjection
         projectionMatrix.invert(inverseProjection);
     }
@@ -56,4 +57,16 @@ public class Camera {
     }
 
 
+    public float getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(float zoom) {
+        this.zoom = zoom;
+    }
+
+    public void addZoom(float value) {
+
+        this.zoom+=value;
+    }
 }

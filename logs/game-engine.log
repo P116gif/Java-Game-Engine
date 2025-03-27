@@ -120,3 +120,10 @@ ERROR: 0:10: 'assign' :  cannot convert from '4-component vector of highp float'
 
 
 2025-03-13 12:49:07 [main] ERROR renderer.Texture - Using default constructor for texture... Why?
+2025-03-24 19:11:28 [main] ERROR renderer.PickingTexture - Error frame buffer is not complete in class renderer.PickingTexture
+2025-03-24 19:12:49 [main] ERROR renderer.PickingTexture - Error frame buffer is not complete in class renderer.PickingTexture
+2025-03-24 19:33:31 [main] ERROR renderer.Shader - Error: 'assets/shaders/pickingShader.glsl' 
+	Fragment Shader Compilation Failed
+2025-03-24 19:33:31 [main] ERROR renderer.Shader - ERROR: 0:25: 'constructor' : too many arguments 
+
+

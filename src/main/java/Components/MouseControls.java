@@ -1,6 +1,6 @@
 package Components;
 
-import Util.settings;
+import Util.Settings;
 import jade.GameObject;
 import jade.Mouse_Listener;
 import jade.Window;
@@ -31,8 +31,8 @@ public class MouseControls extends Component{
             //to snap it to a grid corner, we integer divide it by grid width then
             //multiply it by grid width to get grid corner position
                                                                                                                                     //offset
-            holdingThisObject.transform.position.x = (int)(Mouse_Listener.getOrthoX() / settings.gridWidth) * settings.gridWidth + (32 * 10);
-            holdingThisObject.transform.position.y = (int)(Mouse_Listener.getOrthoY() / settings.gridHeight) * settings.gridHeight - 64;
+            holdingThisObject.transform.position.x = (int)(Mouse_Listener.getOrthoX() / Settings.gridWidth) * Settings.gridWidth + (32 * 10);
+            holdingThisObject.transform.position.y = (int)(Mouse_Listener.getOrthoY() / Settings.gridHeight) * Settings.gridHeight - 64;
 
 
             if(Mouse_Listener.mouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)){
